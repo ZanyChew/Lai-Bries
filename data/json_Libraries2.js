@@ -1,0 +1,35 @@
+var json_Libraries2={
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+                                                                                
+"features": [
+{ "type": "Feature", "properties": { "ObjectID": 1, "Name": "Pasir Ris Public Library", "Type": "Mall-library", "Address": "Pasir Ris Central St 3", "Postal": "518457" }, "geometry": { "type": "Point", "coordinates": [ 103.94944, 1.372358 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 2, "Name": "library@orchard", "Type": "Mall-library", "Address": "Orchard Road", "Postal": "238858" }, "geometry": { "type": "Point", "coordinates": [ 103.839753, 1.300395 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 3, "Name": "Chua Chu Kang Public Library", "Type": "Mall-library", "Address": "Choa Chu Kang Avenue 4", "Postal": "689812" }, "geometry": { "type": "Point", "coordinates": [ 103.745039, 1.384959 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 4, "Name": "Bukit Panjang Public Library", "Type": "Mall-library", "Address": "Jelebu Road", "Postal": "677743" }, "geometry": { "type": "Point", "coordinates": [ 103.76435, 1.379936 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 5, "Name": "Cheng San Public Library", "Type": "Mall-library", "Address": "Hougang Avenue 10", "Postal": "538766" }, "geometry": { "type": "Point", "coordinates": [ 103.893775, 1.372573 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 6, "Name": "Clementi Public Library", "Type": "Mall-library", "Address": "Commonwealth Avenue West", "Postal": "129588" }, "geometry": { "type": "Point", "coordinates": [ 103.764306, 1.315062 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 7, "Name": "Ang Mo Kio Public Library", "Type": "Stand-alone Library", "Address": "Ang Mo Kio Avenue 6", "Postal": "569842" }, "geometry": { "type": "Point", "coordinates": [ 103.845581, 1.37479 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 8, "Name": "Yishun Public Library", "Type": "Mall-library", "Address": "Yishun Ave 2", "Postal": "769098" }, "geometry": { "type": "Point", "coordinates": [ 103.835803, 1.429715 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 9, "Name": "Bishan Public Library", "Type": "Co-library", "Address": "Bishan Place", "Postal": "579841" }, "geometry": { "type": "Point", "coordinates": [ 103.84884, 1.349851 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 10, "Name": "Bedok Public Library", "Type": "Stand-alone Library", "Address": "Bedok North St. 1", "Postal": "469659" }, "geometry": { "type": "Point", "coordinates": [ 103.930924, 1.326813 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 11, "Name": "library@esplanade", "Type": "Mall-library", "Address": "Raffles Avenue", "Postal": "039802" }, "geometry": { "type": "Point", "coordinates": [ 103.85577, 1.289412 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 12, "Name": "Central Public Library", "Type": "Co-library", "Address": "Victoria Street", "Postal": "188064" }, "geometry": { "type": "Point", "coordinates": [ 103.854235, 1.29742 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 13, "Name": "Bukit Merah Public Library", "Type": "Stand-alone Library", "Address": "Jalan Bukit Merah", "Postal": "159462" }, "geometry": { "type": "Point", "coordinates": [ 103.815621, 1.284064 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 14, "Name": "Toa Payoh Public Library", "Type": "Stand-alone Library", "Address": "Toa Payoh Central", "Postal": "319191" }, "geometry": { "type": "Point", "coordinates": [ 103.850969, 1.333625 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 15, "Name": "Jurong Regional Library", "Type": "Co-library", "Address": "Jurong East Central 1", "Postal": "609732" }, "geometry": { "type": "Point", "coordinates": [ 103.739243, 1.332895 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 16, "Name": "National Library \/ Lee Kong Chian Reference Library", "Type": "Co-library", "Address": "Victoria Street", "Postal": "188064" }, "geometry": { "type": "Point", "coordinates": [ 103.854287, 1.297202 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 17, "Name": "Queenstown Public Library", "Type": "Stand-alone Library", "Address": "Margaret Drive", "Postal": "149297" }, "geometry": { "type": "Point", "coordinates": [ 103.80552, 1.298713 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 18, "Name": "Woodlands Regional Library", "Type": "Co-library", "Address": "South Woodlands Drive", "Postal": "730900" }, "geometry": { "type": "Point", "coordinates": [ 103.786928, 1.435037 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 19, "Name": "Tampines Regional Library", "Type": "Stand-alone Library", "Address": "Tampines Ave 7", "Postal": "529620" }, "geometry": { "type": "Point", "coordinates": [ 103.944556, 1.356292 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 20, "Name": "Sembawang Public Library", "Type": "Mall-library", "Address": "Sembawang Drive", "Postal": "757713" }, "geometry": { "type": "Point", "coordinates": [ 103.819499, 1.448197 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 21, "Name": "Geylang East Public Library", "Type": "Stand-alone Library", "Address": "Geylang East Ave 1", "Postal": "389777" }, "geometry": { "type": "Point", "coordinates": [ 103.885837, 1.317443 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 22, "Name": "Jurong West Public Library", "Type": "Mall-library", "Address": "Jurong West Central 3", "Postal": "648346" }, "geometry": { "type": "Point", "coordinates": [ 103.704512, 1.340636 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 23, "Name": "Serangoon Public Library", "Type": "Mall-library", "Address": "Serangoon Central", "Postal": "556083" }, "geometry": { "type": "Point", "coordinates": [ 103.871813, 1.350645 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 24, "Name": "Bukit Batok Public Library", "Type": "Mall-library", "Address": "Bukit Batok Central Link", "Postal": "658713" }, "geometry": { "type": "Point", "coordinates": [ 103.749285, 1.349498 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 25, "Name": "Sengkang Public Library", "Type": "Mall-library", "Address": "Sengkang Square", "Postal": "545078" }, "geometry": { "type": "Point", "coordinates": [ 103.894688, 1.391329 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 26, "Name": "Marine Parade Public Library", "Type": "Mall-library", "Address": "Marine Parade Road", "Postal": "449282" }, "geometry": { "type": "Point", "coordinates": [ 103.909581, 1.30467 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 27, "Name": "library@chinatown", "Type": "Mall-library", "Address": "North Bridge Road", "Postal": "059413" }, "geometry": { "type": "Point", "coordinates": [ 103.844943, 1.285261 ] } },
+{ "type": "Feature", "properties": { "ObjectID": 28, "Name": "The LLiBrary", "Type": "Mall-library", "Address": "Eunos Road", "Postal": "408601" }, "geometry": { "type": "Point", "coordinates": [ 103.893132, 1.321245 ] } }
+]
+}

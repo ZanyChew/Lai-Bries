@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+    <head>
+		<title>Lai-bries</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+		<!-- ========== CSS ========== -->
+        <link rel="stylesheet" href="css/leaflet.css" />
+        <link rel="stylesheet" type="text/css" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/label.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+        <link rel="stylesheet" href="css/leaflet.draw.css" />
+        <link rel="stylesheet" href="css/leaflet.measurecontrol.css" />
+		<!-- ========== Additional CSS ========== -->
+		<link rel="stylesheet" href="http://k4r573n.github.io/leaflet-control-osm-geocoder/Control.OSMGeocoder.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/pup-slider.css" />
+		<style>
+            #map {
+                width: 1000px;
+                height: 550px;
+            }
+        </style>
+		<!-- ========== JS ========== -->
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/label.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/leaflet.draw.js"></script>
+        <script src="js/leaflet.measurecontrol.js"></script>
+        <script src="./resources/Autolinker.min.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+		<!-- ========== Additional JS ========== -->
+		<script src="http://k4r573n.github.io/leaflet-control-osm-geocoder/Control.OSMGeocoder.js"></script>
+		<script src="js/jquery-2.1.1.min.js"></script>
+		<script src="js/leaflet.MakiMarkers.js"></script>
+		<script src="js/d3.min.js"></script>
+		<script src="js/index.js"></script>
+		<script src="js/pup-slider.js"></script>
+        <script type="text/javascript">
+			$(document).ready(function() {
+				$('#left-demo').pupslider({ stick: 'left', speed: 500, opacity: 0.9 });
+
+				$('.btn-show').click(function() {
+					$('#right-demo').css('display', 'none');
+					$('#left-demo').css('display', '');
+				});
+			});
+		</script>
+    </head>
+    <body>
+		<!-- ========== Hidden Content ========== -->
+		<div id="wrapper">
+			<div id="left-demo" class="contents">
+				<!--Popup content bar statrs here-->
+				<div class="btn-show">
+					Show
+				</div>
+				<div class="pushup-form">
+					<div class="btn-close">
+						Close
+					</div>
+					
+					<div id="aster">
+						<script src="js/script.js"></script>
+					</div>
+				</div>
+				<!--Popup content bar ends here-->
+			</div>
+		</div>
+	
+		<!-- ========== Map ========== -->
+        <div id="map">
+        </div>
+        <script src="data/json_Density0.js"></script>
+        <script src="data/json_LibraryBuffer1.js"></script>
+        <script src="data/json_Libraries2.js"></script>
+        <script src="data/json_TuitionCenters3.js"></script>
+        <script src="data/json_TrainStations4.js"></script>
+        <script src="data/json_ShoppingMalls5.js"></script>
+        <script src="data/json_Schools6.js"></script>
+        <script src="data/json_ResearchCentres7.js"></script>
+        <script src="data/json_BusStops8.js"></script>
+        <script src="data/json_HuffiedBorrowers9.js"></script>
+        <script src="data/json_HubLinesshp10.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        var map = L.map('map', {
+            measureControl:true,
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[1.21617746691,103.611603295],[1.49384806436,104.142029264]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var feature_group = new L.featureGroup([]);
+        var bounds_group = new L.featureGroup([]);
+        var raster_group = new L.LayerGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 28
+        });
+        basemap0.addTo(map);
+        var basemap1 = L.tileLayer('http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>,&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 28
+        });
+        basemap1.addTo(map);
+        var layerOrder = new Array();
+        function stackLayers() {
+            for (index = 0; index < layerOrder.length; index++) {
+                map.removeLayer(layerOrder[index]);
+                map.addLayer(layerOrder[index]);
+            }
+        }
+        function restackLayers() {
+            for (index = 0; index < layerOrder.length; index++) {
+                layerOrder[index].bringToFront();
+            }
+        }
+        layerControl = L.control.layers({},{},{collapsed:false});
+        function pop_Density0(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(doStyleDensity0(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+        }
+
+        function doStyleDensity0(feature) {
+        if (feature.properties.Count >= 0.0 &&
+                feature.properties.Count <= 7.0) {
+
+            return {
+                color: '#000000',
+                weight: '3.2',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillColor: '#ffffb2',
+                opacity: '0.4',
+                fillOpacity: '0.4',
+            }
+        }
+        if (feature.properties.Count >= 7.0 &&
+                feature.properties.Count <= 19.0) {
+
+            return {
+                color: '#000000',
+                weight: '3.2',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillColor: '#fecc5c',
+                opacity: '0.4',
+                fillOpacity: '0.4',
+            }
+        }
+        if (feature.properties.Count >= 19.0 &&
+                feature.properties.Count <= 60.0) {
+
+            return {
+                color: '#000000',
+                weight: '3.2',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillColor: '#fd8d3c',
+                opacity: '0.4',
+                fillOpacity: '0.4',
+            }
+        }
+        if (feature.properties.Count >= 60.0 &&
+                feature.properties.Count <= 127.0) {
+
+            return {
+                color: '#000000',
+                weight: '3.2',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillColor: '#f03b20',
+                opacity: '0.4',
+                fillOpacity: '0.4',
+            }
+        }
+        if (feature.properties.Count >= 127.0 &&
+                feature.properties.Count <= 262.0) {
+
+            return {
+                color: '#000000',
+                weight: '3.2',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillColor: '#bd0026',
+                opacity: '0.4',
+                fillOpacity: '0.4',
+            }
+        }
+        }
+        var json_Density0JSON = new L.geoJson(json_Density0, {
+            onEachFeature: pop_Density0,
+            style: doStyleDensity0
+        });
+        layerOrder[layerOrder.length] = json_Density0JSON;
+        bounds_group.addLayer(json_Density0JSON);
+        feature_group.addLayer(json_Density0JSON);
+        function pop_LibraryBuffer1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(doStyleLibraryBuffer1(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+        }
+
+        function doStyleLibraryBuffer1(feature) {
+            return {
+                weight: 0.26,
+                color: '#000000',
+                fillColor: '#ff7f00',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                opacity: 0.4,
+                fillOpacity: 0.4
+            };
+        }
+        var json_LibraryBuffer1JSON = new L.geoJson(json_LibraryBuffer1, {
+            onEachFeature: pop_LibraryBuffer1,
+            style: doStyleLibraryBuffer1
+        });
+        layerOrder[layerOrder.length] = json_LibraryBuffer1JSON;
+        bounds_group.addLayer(json_LibraryBuffer1JSON);
+        feature_group.addLayer(json_LibraryBuffer1JSON);
+        function pop_Libraries2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(doStyleLibraries2(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">ObjectID</th><td>' + (feature.properties['ObjectID'] !== null ? Autolinker.link(String(feature.properties['ObjectID'])) : '') + '</td></tr><tr><th scope="row">Name</th><td>' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td></tr><tr><th scope="row">Type</th><td>' + (feature.properties['Type'] !== null ? Autolinker.link(String(feature.properties['Type'])) : '') + '</td></tr><tr><th scope="row">Address</th><td>' + (feature.properties['Address'] !== null ? Autolinker.link(String(feature.properties['Address'])) : '') + '</td></tr><tr><th scope="row">Postal</th><td>' + (feature.properties['Postal'] !== null ? Autolinker.link(String(feature.properties['Postal'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        var svgLibraries2 = L.MakiMarkers.icon({
+            //iconUrl: 'markers/shopping_book.svg',
+            //iconSize: [22.8, 22.8], // size of the icon
+            icon: "library",
+            color: "#FE642E",
+            size: "l"
+        });
+
+        function doStyleLibraries2() {
+            return {
+                icon: svgLibraries2
+            }
+        }
+        function doPointToLayerLibraries2(feature, latlng) {
+            return L.marker(latlng, doStyleLibraries2())
+        }
+        var json_Libraries2JSON = new L.geoJson(json_Libraries2, {
+            onEachFeature: pop_Libraries2, 
+            pointToLayer: doPointToLayerLibraries2
+            });
+        layerOrder[layerOrder.length] = json_Libraries2JSON;
+
+        bounds_group.addLayer(json_Libraries2JSON);
+        feature_group.addLayer(json_Libraries2JSON);
+        function pop_TuitionCenters3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(doStyleTuitionCenters3(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">Name</th><td>' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td></tr><tr><th scope="row">Address</th><td>' + (feature.properties['Address'] !== null ? Autolinker.link(String(feature.properties['Address'])) : '') + '</td></tr><tr><th scope="row">Postal</th><td>' + (feature.properties['Postal'] !== null ? Autolinker.link(String(feature.properties['Postal'])) : '') + '</td></tr><tr><th scope="row">Latitude</th><td>' + (feature.properties['Latitude'] !== null ? Autolinker.link(String(feature.properties['Latitude'])) : '') + '</td></tr><tr><th scope="row">Longitude</th><td>' + (feature.properties['Longitude'] !== null ? Autolinker.link(String(feature.properties['Longitude'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyleTuitionCenters3() {
+            return {
+                radius: 2.0,
+                fillColor: '#63b8f8',
+                color: '#000000',
+                weight: 0.0,
+                opacity: 1.0,
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillOpacity: 1.0
+            }
+        }
+        function doPointToLayerTuitionCenters3(feature, latlng) {
+            return L.circleMarker(latlng, doStyleTuitionCenters3())
+        }
+        var json_TuitionCenters3JSON = new L.geoJson(json_TuitionCenters3, {
+            onEachFeature: pop_TuitionCenters3, 
+            pointToLayer: doPointToLayerTuitionCenters3
+            });
+        layerOrder[layerOrder.length] = json_TuitionCenters3JSON;
+
+        bounds_group.addLayer(json_TuitionCenters3JSON);
+        function pop_TrainStations4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(doStyleTrainStations4(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">Name</th><td>' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td></tr><tr><th scope="row">Line</th><td>' + (feature.properties['Line'] !== null ? Autolinker.link(String(feature.properties['Line'])) : '') + '</td></tr><tr><th scope="row">Transit</th><td>' + (feature.properties['Transit'] !== null ? Autolinker.link(String(feature.properties['Transit'])) : '') + '</td></tr><tr><th scope="row">Postal</th><td>' + (feature.properties['Postal'] !== null ? Autolinker.link(String(feature.properties['Postal'])) : '') + '</td></tr><tr><th scope="row">Latitude</th><td>' + (feature.properties['Latitude'] !== null ? Autolinker.link(String(feature.properties['Latitude'])) : '') + '</td></tr><tr><th scope="row">Longitude</th><td>' + (feature.properties['Longitude'] !== null ? Autolinker.link(String(feature.properties['Longitude'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyleTrainStations4() {
+            return {
+                radius: 2.0,
+                fillColor: '#ac1493',
+                color: '#000000',
+                weight: 0.0,
+                opacity: 1.0,
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillOpacity: 1.0
+            }
+        }
+        function doPointToLayerTrainStations4(feature, latlng) {
+            return L.circleMarker(latlng, doStyleTrainStations4())
+        }
+        var json_TrainStations4JSON = new L.geoJson(json_TrainStations4, {
+            onEachFeature: pop_TrainStations4, 
+            pointToLayer: doPointToLayerTrainStations4
+            });
+        layerOrder[layerOrder.length] = json_TrainStations4JSON;
+
+        bounds_group.addLayer(json_TrainStations4JSON);
+        function pop_ShoppingMalls5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(doStyleShoppingMalls5(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">Name</th><td>' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td></tr><tr><th scope="row">Postal</th><td>' + (feature.properties['Postal'] !== null ? Autolinker.link(String(feature.properties['Postal'])) : '') + '</td></tr><tr><th scope="row">Latitude</th><td>' + (feature.properties['Latitude'] !== null ? Autolinker.link(String(feature.properties['Latitude'])) : '') + '</td></tr><tr><th scope="row">Longitude</th><td>' + (feature.properties['Longitude'] !== null ? Autolinker.link(String(feature.properties['Longitude'])) : '') + '</td></tr><tr><th scope="row">Fashion</th><td>' + (feature.properties['Fashion'] !== null ? Autolinker.link(String(feature.properties['Fashion'])) : '') + '</td></tr><tr><th scope="row">FnB</th><td>' + (feature.properties['FnB'] !== null ? Autolinker.link(String(feature.properties['FnB'])) : '') + '</td></tr><tr><th scope="row">Department</th><td>' + (feature.properties['Department'] !== null ? Autolinker.link(String(feature.properties['Department'])) : '') + '</td></tr><tr><th scope="row">Supermart</th><td>' + (feature.properties['Supermart'] !== null ? Autolinker.link(String(feature.properties['Supermart'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyleShoppingMalls5() {
+            return {
+                radius: 2.0,
+                fillColor: '#984095',
+                color: '#000000',
+                weight: 0.0,
+                opacity: 1.0,
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillOpacity: 1.0
+            }
+        }
+        function doPointToLayerShoppingMalls5(feature, latlng) {
+            return L.circleMarker(latlng, doStyleShoppingMalls5())
+        }
+        var json_ShoppingMalls5JSON = new L.geoJson(json_ShoppingMalls5, {
+            onEachFeature: pop_ShoppingMalls5, 
+            pointToLayer: doPointToLayerShoppingMalls5
+            });
+        layerOrder[layerOrder.length] = json_ShoppingMalls5JSON;
+
+        bounds_group.addLayer(json_ShoppingMalls5JSON);
+        function pop_Schools6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(doStyleSchools6(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">Name</th><td>' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td></tr><tr><th scope="row">Type</th><td>' + (feature.properties['Type'] !== null ? Autolinker.link(String(feature.properties['Type'])) : '') + '</td></tr><tr><th scope="row">Address</th><td>' + (feature.properties['Address'] !== null ? Autolinker.link(String(feature.properties['Address'])) : '') + '</td></tr><tr><th scope="row">Postal</th><td>' + (feature.properties['Postal'] !== null ? Autolinker.link(String(feature.properties['Postal'])) : '') + '</td></tr><tr><th scope="row">Latitude</th><td>' + (feature.properties['Latitude'] !== null ? Autolinker.link(String(feature.properties['Latitude'])) : '') + '</td></tr><tr><th scope="row">Longitude</th><td>' + (feature.properties['Longitude'] !== null ? Autolinker.link(String(feature.properties['Longitude'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyleSchools6() {
+            return {
+                radius: 2.0,
+                fillColor: '#8eeda4',
+                color: '#000000',
+                weight: 0.0,
+                opacity: 1.0,
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillOpacity: 1.0
+            }
+        }
+        function doPointToLayerSchools6(feature, latlng) {
+            return L.circleMarker(latlng, doStyleSchools6())
+        }
+        var json_Schools6JSON = new L.geoJson(json_Schools6, {
+            onEachFeature: pop_Schools6, 
+            pointToLayer: doPointToLayerSchools6
+            });
+        layerOrder[layerOrder.length] = json_Schools6JSON;
+
+        bounds_group.addLayer(json_Schools6JSON);
+        function pop_ResearchCentres7(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(doStyleResearchCentres7(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">Name</th><td>' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td></tr><tr><th scope="row">Address</th><td>' + (feature.properties['Address'] !== null ? Autolinker.link(String(feature.properties['Address'])) : '') + '</td></tr><tr><th scope="row">Postal</th><td>' + (feature.properties['Postal'] !== null ? Autolinker.link(String(feature.properties['Postal'])) : '') + '</td></tr><tr><th scope="row">Latitude</th><td>' + (feature.properties['Latitude'] !== null ? Autolinker.link(String(feature.properties['Latitude'])) : '') + '</td></tr><tr><th scope="row">Longitude</th><td>' + (feature.properties['Longitude'] !== null ? Autolinker.link(String(feature.properties['Longitude'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        var svgResearchCentres7 = L.icon({
+            iconUrl: 'markers/Star1.svg',
+            iconSize: [18.24, 18.24], // size of the icon
+        });
+
+        function doStyleResearchCentres7() {
+            return {
+                icon: svgResearchCentres7
+            }
+        }
+        function doPointToLayerResearchCentres7(feature, latlng) {
+            return L.marker(latlng, doStyleResearchCentres7())
+        }
+        var json_ResearchCentres7JSON = new L.geoJson(json_ResearchCentres7, {
+            onEachFeature: pop_ResearchCentres7, 
+            pointToLayer: doPointToLayerResearchCentres7
+            });
+        layerOrder[layerOrder.length] = json_ResearchCentres7JSON;
+
+        bounds_group.addLayer(json_ResearchCentres7JSON);
+        function pop_BusStops8(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(doStyleBusStops8(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">Bus Stop</th><td>' + (feature.properties['Bus Stop'] !== null ? Autolinker.link(String(feature.properties['Bus Stop'])) : '') + '</td></tr><tr><th scope="row">Bus Roof</th><td>' + (feature.properties['Bus Roof'] !== null ? Autolinker.link(String(feature.properties['Bus Roof'])) : '') + '</td></tr><tr><th scope="row">Location</th><td>' + (feature.properties['Location'] !== null ? Autolinker.link(String(feature.properties['Location'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyleBusStops8() {
+            return {
+                radius: 0.8,
+                fillColor: '#fb9a99',
+                color: '#000000',
+                weight: 0.0,
+                opacity: 1.0,
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillOpacity: 1.0
+            }
+        }
+        function doPointToLayerBusStops8(feature, latlng) {
+            return L.circleMarker(latlng, doStyleBusStops8())
+        }
+        var json_BusStops8JSON = new L.geoJson(json_BusStops8, {
+            onEachFeature: pop_BusStops8, 
+            pointToLayer: doPointToLayerBusStops8
+            });
+        layerOrder[layerOrder.length] = json_BusStops8JSON;
+
+        bounds_group.addLayer(json_BusStops8JSON);
+        function pop_HuffiedBorrowers9(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(doStyleHuffiedBorrowers9(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">PseudoID</th><td>' + (feature.properties['PseudoID'] !== null ? Autolinker.link(String(feature.properties['PseudoID'])) : '') + '</td></tr><tr><th scope="row">Latitude</th><td>' + (feature.properties['Latitude'] !== null ? Autolinker.link(String(feature.properties['Latitude'])) : '') + '</td></tr><tr><th scope="row">Longitude</th><td>' + (feature.properties['Longitude'] !== null ? Autolinker.link(String(feature.properties['Longitude'])) : '') + '</td></tr><tr><th scope="row">Age</th><td>' + (feature.properties['Age'] !== null ? Autolinker.link(String(feature.properties['Age'])) : '') + '</td></tr><tr><th scope="row">Gender</th><td>' + (feature.properties['Gender'] !== null ? Autolinker.link(String(feature.properties['Gender'])) : '') + '</td></tr><tr><th scope="row">Nationalit</th><td>' + (feature.properties['Nationalit'] !== null ? Autolinker.link(String(feature.properties['Nationalit'])) : '') + '</td></tr><tr><th scope="row">Race</th><td>' + (feature.properties['Race'] !== null ? Autolinker.link(String(feature.properties['Race'])) : '') + '</td></tr><tr><th scope="row">Visited_L</th><td>' + (feature.properties['Visited_L'] !== null ? Autolinker.link(String(feature.properties['Visited_L'])) : '') + '</td></tr><tr><th scope="row">Distance</th><td>' + (feature.properties['Distance'] !== null ? Autolinker.link(String(feature.properties['Distance'])) : '') + '</td></tr><tr><th scope="row">Huff</th><td>' + (feature.properties['Huff'] !== null ? Autolinker.link(String(feature.properties['Huff'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyleHuffiedBorrowers9() {
+            return {
+                radius: 2.0,
+                fillColor: '#c777a7',
+                color: '#000000',
+                weight: 0.0,
+                opacity: 1.0,
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillOpacity: 1.0
+            }
+        }
+        function doPointToLayerHuffiedBorrowers9(feature, latlng) {
+            return L.circleMarker(latlng, doStyleHuffiedBorrowers9())
+        }
+        var json_HuffiedBorrowers9JSON = new L.geoJson(json_HuffiedBorrowers9, {
+            onEachFeature: pop_HuffiedBorrowers9, 
+            pointToLayer: doPointToLayerHuffiedBorrowers9
+            });
+        layerOrder[layerOrder.length] = json_HuffiedBorrowers9JSON;
+
+        bounds_group.addLayer(json_HuffiedBorrowers9JSON);
+        feature_group.addLayer(json_HuffiedBorrowers9JSON);
+        function pop_HubLinesshp10(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(doStyleHubLinesshp10(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table><tr><th scope="row">PseudoID</th><td>' + (feature.properties['PseudoID'] !== null ? Autolinker.link(String(feature.properties['PseudoID'])) : '') + '</td></tr><tr><th scope="row">Latitude</th><td>' + (feature.properties['Latitude'] !== null ? Autolinker.link(String(feature.properties['Latitude'])) : '') + '</td></tr><tr><th scope="row">Longitude</th><td>' + (feature.properties['Longitude'] !== null ? Autolinker.link(String(feature.properties['Longitude'])) : '') + '</td></tr><tr><th scope="row">Age</th><td>' + (feature.properties['Age'] !== null ? Autolinker.link(String(feature.properties['Age'])) : '') + '</td></tr><tr><th scope="row">Gender</th><td>' + (feature.properties['Gender'] !== null ? Autolinker.link(String(feature.properties['Gender'])) : '') + '</td></tr><tr><th scope="row">Nationalit</th><td>' + (feature.properties['Nationalit'] !== null ? Autolinker.link(String(feature.properties['Nationalit'])) : '') + '</td></tr><tr><th scope="row">Race</th><td>' + (feature.properties['Race'] !== null ? Autolinker.link(String(feature.properties['Race'])) : '') + '</td></tr><tr><th scope="row">Visited_L</th><td>' + (feature.properties['Visited_L'] !== null ? Autolinker.link(String(feature.properties['Visited_L'])) : '') + '</td></tr><tr><th scope="row">Distance</th><td>' + (feature.properties['Distance'] !== null ? Autolinker.link(String(feature.properties['Distance'])) : '') + '</td></tr><tr><th scope="row">Huff</th><td>' + (feature.properties['Huff'] !== null ? Autolinker.link(String(feature.properties['Huff'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyleHubLinesshp10(feature) {
+        if (feature.properties.Huff >= 0.101604 &&
+                feature.properties.Huff <= 0.350092) {
+
+            return {
+                color: '#33a02c',
+                weight: '2.0',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                opacity: '1.0',
+            }
+        }
+        if (feature.properties.Huff >= 0.350092 &&
+                feature.properties.Huff <= 0.65804) {
+
+            return {
+                color: '#ffee00',
+                weight: '2.0',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                opacity: '1.0',
+            }
+        }
+        if (feature.properties.Huff >= 0.65804 &&
+                feature.properties.Huff <= 1.0) {
+
+            return {
+                color: '#e31a1c',
+                weight: '2.0',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                opacity: '1.0',
+            }
+        }
+        }
+        var json_HubLinesshp10JSON = new L.geoJson(json_HubLinesshp10, {
+            onEachFeature: pop_HubLinesshp10,
+            style: doStyleHubLinesshp10
+        });
+        layerOrder[layerOrder.length] = json_HubLinesshp10JSON;
+        bounds_group.addLayer(json_HubLinesshp10JSON);
+        feature_group.addLayer(json_HubLinesshp10JSON);
+        raster_group.addTo(map);
+        feature_group.addTo(map);
+        var baseMaps = {'OSM Standard': basemap0, 'Thunderforest Cycle': basemap1};
+        L.control.layers(baseMaps,{'Hub Lines.shp<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/HubLinesshp10_010035.png" />  0.10 - 0.35 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/HubLinesshp10_035066.png" />  0.35 - 0.66 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/HubLinesshp10_066100.png" />  0.66 - 1.00 <br />': json_HubLinesshp10JSON,'<img src="legend/HuffiedBorrowers9.png" /> Huffied Borrowers': json_HuffiedBorrowers9JSON,'<img src="legend/BusStops8.png" /> Bus Stops': json_BusStops8JSON,'<img src="legend/ResearchCentres7.png" /> Research Centres': json_ResearchCentres7JSON,'<img src="legend/Schools6.png" /> Schools': json_Schools6JSON,'<img src="legend/ShoppingMalls5.png" /> Shopping Malls': json_ShoppingMalls5JSON,'<img src="legend/TrainStations4.png" /> Train Stations': json_TrainStations4JSON,'<img src="legend/TuitionCenters3.png" /> Tuition Centers': json_TuitionCenters3JSON,'<img src="legend/Libraries2.png" /> Libraries': json_Libraries2JSON,'<img src="legend/LibraryBuffer1.png" /> Library Buffer': json_LibraryBuffer1JSON,'Density<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/Density0_0070.png" />  0.0 - 7.0 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/Density0_70190.png" />  7.0 - 19.0 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/Density0_190600.png" />  19.0 - 60.0 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/Density0_6001270.png" />  60.0 - 127.0 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/Density0_12702620.png" />  127.0 - 262.0 <br />': json_Density0JSON,},{collapsed:false}).addTo(map);
+        L.control.scale({options: {position: 'bottomleft', maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}}).addTo(map);
+        stackLayers();
+        map.on('overlayadd', restackLayers);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,56 @@
+﻿.pushup-form
+{
+	width: 800px;
+	background: rgba(0, 0, 0, 0.1);
+	padding-top: 5px;
+	position: relative;
+	border: 3px dotted #000;
+}
+.pushup-form.left
+{
+	border-right: dotted 3px #000;
+}
+.pushup-form.right
+{
+	border-left: dotted 3px #000;
+}
+.clear
+{
+	clear: both;
+}
+.btn-close
+{
+	color: #3E414A;
+	background-color: #FFEF00;
+	border: none;
+	width: 40px;
+	height: 16px;
+	font-size: 11px;
+	text-align: center;
+	cursor: pointer;
+	padding-top: 2px;
+}
+.btn-close.left
+{
+	float: right;
+	margin-right: 15px;
+}
+.btn-close.right
+{
+	float: left;
+	margin-left: 15px;
+}
+.btn-show
+{
+	color: #3E414A;
+	background-color: #FFEF00;
+	border: none;
+	width: 40px;
+	height: 16px;
+	font-size: 11px;
+	text-align: center;
+	cursor: pointer;
+	padding-top: 2px;
+	margin-top: 10px;
+	position: absolute;
+}

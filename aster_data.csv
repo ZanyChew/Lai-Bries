@@ -1,0 +1,29 @@
+id,order,score,weight,color,label
+1,1,4.203411172,1,#7b4502,Pasir Ris
+2,2,18.68360806,4,#0179d3,Orchard
+3,3,7.952552656,2,#03017f,Chua Chu Kang
+4,4,7.128605769,2,#830253,Bukit Panjang
+5,5,6.19047619,2,#ff6a04,Cheng San
+6,6,7.217777015,2,#fd9796,Clementi
+7,7,1.317651099,1,#726f6e,Ang Mo Kio
+8,8,6.468521062,2,#fedf98,Yishun
+9,9,8.595924908,2,#d905fd,Bishan
+10,10,2.863209707,1,#726afe,Bedok
+11,11,8.493131868,2,#c293cd,Esplanade
+12,12,5.161744505,1,#ff0c9c,Central
+13,13,1.333905678,1,#430203,Bukit Merah
+14,14,6.668784341,2,#3f2d6e,Toa Payoh
+15,15,2.117273352,1,#a30a02,Jurong
+16,16,5.268830128,1,#dc9431,National Library
+17,17,1.08716804,1,#9504a0,Queenstown
+18,18,8.80139652,2,#a53e46,Woodlands
+19,19,14.04613095,3,#a38b57,Tampines
+20,20,5.715144231,2,#e668a1,Sembawang
+21,21,1.136275183,1,#8fbeff,Geylang East
+22,22,15.50457875,4,#3f3315,Jurong West
+23,23,14.36166438,4,#6513cb,Serangoon
+24,24,4.404761905,1,#fc0a1b,Bukit Batok
+25,25,1.622825092,1,#ff6d55,Sengkang
+26,26,1.103422619,1,#fe07d3,Marine Parade
+27,27,3.946428571,1,#8e5bbd,Chinatown
+28,28,5.286114927,1,#663851,The LLiBrary
